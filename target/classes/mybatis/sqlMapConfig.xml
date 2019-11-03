@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+    </plugins>
+
+<!-- 因为在外部spring的dao中已经配置,所以这里只要写一个空,mappers -->
+<!-- 在外部写的好处是可以支持list形势 -->
+	<mappers>
+
+	</mappers>
+
+</configuration>
