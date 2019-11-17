@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.study.common.AbstractTask;
 import com.study.common.CloseUtil;
 import com.study.common.JdbcUtil;
 import com.study.message.common.TaskInfo;
@@ -27,8 +28,14 @@ public class InitTask implements IStartup {
 			conn = JdbcUtil.getConnection();
 			ps = conn.prepareStatement("select * from t_taskinfo");
 			rs = ps.executeQuery();
-			List<TaskInfo> task =  buildTaskInfo(rs);
-			System.out.println(task);
+			List<TaskInfo> tasks =  buildTaskInfo(rs);
+			
+			for (TaskInfo task : tasks) {
+				AbstractTask aTask = (AbstractTask) SpringAware.getBean(task.getTaskName());
+				if (null != aTask) {
+					aTask.work(task);
+				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

@@ -8,6 +8,9 @@ public class Startup {
 	
 	private List<IStartup> startupConfigs = new ArrayList<>();
 	
+	private Startup() {
+	}
+	
 	public static Startup getInstance() {
 		return INSTANCE;
 	}
