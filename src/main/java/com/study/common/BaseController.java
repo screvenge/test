@@ -1,5 +1,6 @@
 package com.study.common;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.alibaba.fastjson.JSON;
@@ -10,6 +11,7 @@ public class BaseController {
 	/**
 	 * 工作流dao
 	 */
+	@Autowired
 	private FlowDao flowDao;
 	
 	@SuppressWarnings("unchecked")
@@ -35,7 +37,7 @@ public class BaseController {
 			// 用事务管理器判断是否结束
 			// https://blog.csdn.net/qq_31854907/article/details/102584154
 			// 必须事务结束才能开始记录操作历史
-			if (!TransactionSynchronizationManager.isSynchronizationActive() &&  req instanceof IOperationReq) {
+			if (!TransactionSynchronizationManager.isSynchronizationActive() && req instanceof IOperationReq) {
 				IOperationReq iReq = (IOperationReq) req;
 				Object context = util.query(iReq.getId());
 				FlowRecord flow = new FlowRecord();

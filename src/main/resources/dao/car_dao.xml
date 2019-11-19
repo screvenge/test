@@ -4,4 +4,17 @@
 	<select id="queryCars" resultType="com.study.model.car.CarRecord">
 		select * from a_car_info
 	</select>
+	
+	<select id="queryCarById" resultType="com.study.message.car.data.CarInfo">
+		select * from a_car_info where id = #{id}
+	</select>
+	
+	<insert id="addCarRecord">
+		insert into a_car_info 
+		(id, carno, haslicense, licenseid, hastemplicense, temlicense, temstartdate, temenddate, 
+		aduitstatus, status, departmentid, staffid, consumerid, registtime, actualregisttime, outtime) 
+		values 
+		(#{id}, #{carNo}, #{hasLicense}, #{licenseId}, #{hasTempLicense}, #{temLicense}, #{temStartDate}, #{temEndDate}, 
+		#{aduitStatus}, #{status}, #{departmentId}, #{staffId}, #{consumerId}, #{registTime}, #{actualRegistTime}, #{outTime})
+	</insert>
 </mapper>

@@ -13,8 +13,9 @@ import com.study.common.IService;
 import com.study.message.car.req.AddCarReq;
 import com.study.service.car.CarOperationUtil;
 
+@RequestMapping("/api")
 @Controller
-public class FlowController extends BaseController {
+public class CarController extends BaseController {
 	@Autowired
 	private IService<AddCarReq, BaseRsp> addCarService;
 	
