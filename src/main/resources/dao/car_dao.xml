@@ -1,20 +1,242 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.study.dao.car.CarDao">
-	<select id="queryCars" resultType="com.study.model.car.CarRecord">
+
+	<resultMap type="com.study.message.car.data.CarInfoOfOne"
+		id="CarInfoOfOne">
+		<id property="carId" column="carId" />
+		<result property="carNo" column="carNo" />
+		<result property="licenseId" column="licenseid" />
+		<result property="temLicense" column="temlicense" />
+		<result property="temStartDate" column="temstartdate" />
+		<result property="temEndDate" column="temenddate" />
+		<result property="aduitStatus" column="aduitstatus" />
+		<result property="status" column="status" />
+		<result property="consName" column="consname" />
+		<association property="staffInfo"
+			javaType="com.study.message.car.data.StaffInfo">
+			<id property="jobNumber" column="jobnumber" />
+			<result property="depName" column="depname" />
+			<result property="staffName" column="staffname" />
+			<result property="phone" column="phone" />
+			<result property="email" column="email" />
+		</association>
+	</resultMap>
+	<resultMap type="com.study.message.car.data.CarAndComponent"
+		id="carAndComponent">
+		<association property="carRecord"
+			javaType="com.study.model.car.CarRecord">
+			<id property="id" column="id" />
+			<result property="carNo" column="carNo" />
+			<result property="hasLicense" column="hasLicense" />
+			<result property="licenseId" column="licenseId" />
+			<result property="hasTempLicense" column="hasTempLicense" />
+			<result property="temLicense" column="temLicense" />
+			<result property="temStartDate" column="temStartDate" />
+			<result property="temEndDate" column="temEndDate" />
+			<result property="aduitStatus" column="aduitStatus" />
+			<result property="status" column="status" />
+			<result property="departmentId" column="departmentId" />
+			<result property="staffId" column="staffId" />
+			<result property="consumerId" column="consumerId" />
+			<result property="registTime" column="registTime" />
+			<result property="actualRegistTime" column="actualRegistTime" />
+			<result property="outTime" column="outTime" />
+		</association>
+		<association property="carComponent"
+			javaType="com.study.model.car.CarComponent">
+			<id property="compId" column="id" />
+			<result property="carId" column="carId" />
+			<result property="light" column="light" />
+			<result property="mirror" column="mirror" />
+			<result property="door" column="door" />
+			<result property="window" column="window" />
+			<result property="engine" column="engine" />
+			<result property="battery" column="battery" />
+			<result property="bumper" column="bumper" />
+			<result property="brake" column="brake" />
+			<result property="tire" column="tire" />
+			<result property="chassis" column="chassis" />
+			<result property="turn" column="turn" />
+			<result property="horn" column="horn" />
+			<result property="checkTime" column="checkTime" />
+			<result property="enterStore" column="enterStore" />
+			<result property="checkStaffId" column="checkStaffId" />
+		</association>
+	</resultMap>
+
+	<!-- 查a_car_info全表 -->
+	<select id="queryCars"
+		resultType="com.study.model.car.CarRecord">
 		select * from a_car_info
 	</select>
-	
-	<select id="queryCarById" resultType="com.study.message.car.data.CarInfo">
+
+	<!-- 根据主键id查询car信息==>a_car_info表 -->
+	<select id="queryCarById"
+		resultType="com.study.message.car.data.CarInfo">
 		select * from a_car_info where id = #{id}
 	</select>
-	
+
 	<insert id="addCarRecord">
-		insert into a_car_info 
-		(id, carno, haslicense, licenseid, hastemplicense, temlicense, temstartdate, temenddate, 
-		aduitstatus, status, departmentid, staffid, consumerid, registtime, actualregisttime, outtime) 
-		values 
-		(#{id}, #{carNo}, #{hasLicense}, #{licenseId}, #{hasTempLicense}, #{temLicense}, #{temStartDate}, #{temEndDate}, 
-		#{aduitStatus}, #{status}, #{departmentId}, #{staffId}, #{consumerId}, #{registTime}, #{actualRegistTime}, #{outTime})
+		insert into a_car_info
+		(id, carno, haslicense,licenseid, hastemplicense, temlicense,temstartdate, temenddate,
+		aduitstatus, status, departmentid, staffid, consumerid, registtime,actualregisttime, outtime)
+		values
+		(#{id}, #{carNo}, #{hasLicense},#{licenseId}, #{hasTempLicense},#{temLicense}, #{temStartDate},
+		#{temEndDate},#{aduitStatus}, #{status}, #{departmentId}, #{staffId},#{consumerId}, #{registTime},
+		#{actualRegistTime}, #{outTime})
 	</insert>
+
+	<!-- 添加车辆信息,并将自动生成的主键id赋值给形参的CarRecord -->
+	<insert id="addCarInfo"
+		parameterType="com.study.model.car.CarRecord" keyProperty="id"
+		useGeneratedKeys="true">
+		insert into
+		a_car_info(haslicense,licenseid,hastemplicense,temlicense,temstartdate,temenddate,aduitstatus,status,departmentid,staffid,consumerid,registtime)
+		values(#{hasLicense},#{licenseId},#{hasTempLicense},#{temLicense},#{temStartDate},#{temEndDate},0,0,#{departmentId},#{staffId},#{consumerId},current_timestamp())
+	</insert>
+
+	<!-- 根据牌照号查询carId ==> a_car_info 表 -->
+	<select id="selectCarIdByLicense" resultType="Long">
+		select id as carId from a_car_info where 1=1
+		<if test="licenseId != null and licenseId !=''">
+			and licenseId = #{licenseId}
+		</if>
+		<if test="temLicense != null and temLicense != ''">
+			and temLicense = #{temLicense}
+		</if>
+	</select>
+
+	<!-- 根据客户名查询客户id -->
+	<select id="selectConsumerIdByName" resultType="Long">
+		select id as
+		consumerId from a_consumer where name = #{consumerName}
+	</select>
+
+	<!-- 根据carNO查询carId -->
+	<select id="searchCarIdByCarNo" resultType="Long">
+		select id as carId
+		from a_car_info where carno = #{carNo}
+	</select>
+
+	<!-- 根据车牌号查找车辆原始信息 -->
+	<select id="selectOneCarRecordByLicense"
+		resultType="com.study.model.car.CarRecord">
+		select * from a_car_info where licenseid = #{license} or temlicense = #{license}
+	</select>
+
+	<!-- 添加车辆部件信息 -->
+	<insert id="addCarComponentInfo"
+		parameterType="com.study.model.car.CarComponent">
+		insert into
+		a_car_component(carid,light,mirror,door,window,engine,battery,bumper,brake,tire,chassis,turn,horn,checktime,enterstore,checkstaffid)
+		values(#{carId},#{light},#{mirror},#{door},#{window},#{engine},#{battery},#{bumper},#{brake},#{tire},#{chassis},#{turn},#{horn},current_timestamp(),#{enterStore},#{checkStaffId})
+	</insert>
+
+	<!-- 更新车辆信息 -->
+	<update id="updateCarInfo"
+		parameterType="com.study.model.car.CarRecord">
+		update a_car_info set
+		carno=#{carNo},aduitstatus=#{aduitStatus},status=#{status},actualregisttime=current_timestamp()
+		where id = #{id}
+	</update>
+
+	<!-- 添加repairInfo -->
+	<insert id="addCarRepairInfo"
+		parameterType="com.study.model.car.CarRepair" keyProperty="repairId"
+		useGeneratedKeys="true">
+		insert into
+		a_car_repair(carid,component,applystaffid,applytime,defaulttime)
+		values(#{carId},#{component},#{applyStaffId},current_timestamp(),#{defaulttime})
+	</insert>
+
+	<!-- 根据主键更新repairInfo -->
+	<update id="updateCarRepairInfo"
+		parameterType="com.study.model.car.CarRepair">
+		update a_car_repair set cost = #{cost},repairstaffid =
+		#{repairStaffId},repairtime = current_timestamp(),defaulttime =
+		current_timestamp()
+		where id =
+		#{repairId}
+	</update>
+
+	<!-- 根据carId, component,修理时间为null,查询修理表 -->
+	<select id="selectCarRepairInfo"
+		resultType="com.study.model.car.CarRepair">
+		select id as repairId,carId,component,cost,applyStaffId,repairStaffId,applyTime,repairTime
+		from a_car_repair
+		where carid = #{carId} and component = #{component} and repairtime is null
+	</select>
+
+	<!-- 根据carid删除carInfo -->
+	<delete id="deleteCarInfoByCarId">
+		delete from a_car_info where id = #{carId}
+	</delete>
+
+	<!-- 根据carId删除carComponentInfo -->
+	<delete id="deletecarComponentInfoByCarId">
+		delete from a_car_component where carId = #{carId}
+	</delete>
+
+	<!-- 根据carId删除carRepairInfo -->
+	<delete id="deletecarRepairInfoByCarId">
+		delete from a_car_repair where carId = #{carId}
+	</delete>
+
+	<!-- 根据carNo模糊查询车辆信息 -->
+	
+	<select id="selectCarInfoByCarNo" resultMap="CarInfoOfOne">
+		<bind name="pattren_carNo" value="'%' + carNo + '%'" />
+		select c.id as carId,c.carNo,c.licenseid,c.temlicense,c.temstartdate,c.temenddate,c.aduitstatus,c.status,
+		r.name as consname,s.jobnumber,d.name as depname,s.name as staffname,s.phone,s.email
+		from a_car_info c
+		left join a_staff s
+		on
+		c.staffid = s.id
+		left join a_department d
+		on 
+		c.departmentid = d.id
+		left join a_consumer r
+		on 
+		c.consumerid = r.id
+		<if test="carNo != null and carNo != ''">
+			where c.carno like #{pattren_carNo}
+		</if>
+	</select>
+
+	<!-- 根据repairId主键查询carrepair表 -->
+	<select id="selectCarRepairInfoByRepairId"
+		resultType="com.study.model.car.CarRepair">
+		select id as repairId,carId,component,cost,applyStaffId,repairStaffId,applyTime,repairTime
+		from a_car_repair
+		where id = #{repairId}
+	</select>
+
+	<!-- 根据carId查询a_car_component 和 a_car_info 表,tips:resultMap写在最前面 -->
+	<select id="selectCarAndComponentByCarId"
+		resultMap="carAndComponent">
+		select c.id,c.carNo ,c.hasLicense ,c.licenseId,c.hasTempLicense,c.temLicense ,c.temStartDate ,c.temEndDate,
+		c.aduitStatus ,c.status,c.departmentId ,c.staffId ,c.consumerId,c.registTime,c.actualRegistTime,c.outTime,
+		t.id ,t.carId ,t.light,t.mirror ,t.door ,t.window ,t.engine ,t.battery ,t.bumper ,t.brake,t.tire ,t.chassis,
+		t.turn ,t.horn,t.checkTime,t.enterStore,t.checkStaffId
+		from a_car_info c
+		left join a_car_component t
+		on 
+		c.id = t.carid
+		where c.id = #{carId}
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </mapper>

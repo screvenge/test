@@ -6,21 +6,19 @@ import org.springframework.stereotype.Service;
 import com.study.common.OperationUtil;
 import com.study.dao.car.CarDao;
 /**
- * 实现OperationUtil接口
- * 重写了query方法为,根据carId查询carInfo表
+ * 根据carId查询出info和component两表的信息
  * @author swiftzsl
  *
  */
-@Service("carOperationUtil")
-public class CarOperationUtil implements OperationUtil {
+@Service("carInfoAndComponentInfoOperationUtil")
+public class CarInfoAndComponentInfoOperationUtil implements OperationUtil{
+	
 	@Autowired
 	private CarDao carDao;
-
-	/**
-	 * 根据carId查询carInfo表
-	 */
+	
 	@Override
-	public Object query(Long id) {
-		return carDao.queryCarById(id);
+	public Object query(Long carId) {
+		return carDao.selectCarAndComponentByCarId(carId);
 	}
+
 }

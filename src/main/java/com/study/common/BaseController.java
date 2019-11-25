@@ -13,7 +13,7 @@ public class BaseController {
 	 */
 	@Autowired
 	private FlowDao flowDao;
-	
+
 	@SuppressWarnings("unchecked")
 	public <Q, P> P service(IService<Q, P> iService, Q req) {
 		try {
@@ -28,9 +28,14 @@ public class BaseController {
 			return (P) new BaseRsp(5, "error");
 		}
 	}
-	
+
+	/**
+	 * 不同于service做的事情 1.获取事务操作生成的主键id,根据id查询相应表的信息并赋值object模型
+	 * (怎么查id,查怎么表都自己去重写,通过请求类实现IOperationReq==>获取id,自定义服务类实现OperationUtil==>查表信息)
+	 * 2.set flowrecord模型的属性,然后插入到flowno表中
+	 */
 	@SuppressWarnings("unchecked")
-	public <Q, P> P  serviceWithOperation(IService<Q, P> iService, Q req, OperationUtil util) {
+	public <Q, P> P serviceWithOperation(IService<Q, P> iService, Q req, OperationUtil util) {
 		try {
 			P rsp = iService.doExcute(req);
 
@@ -38,15 +43,23 @@ public class BaseController {
 			// https://blog.csdn.net/qq_31854907/article/details/102584154
 			// 必须事务结束才能开始记录操作历史
 			if (!TransactionSynchronizationManager.isSynchronizationActive() && req instanceof IOperationReq) {
+
+				// 在运行时是IOperationReq的实现类请求对象
 				IOperationReq iReq = (IOperationReq) req;
-				Object context = util.query(iReq.getId());
+
+				// 查到了进行事务操作的指定id的相关表信息,赋值给object,具体查什么表,你自己去重写
+				Long id = iReq.getId();
+				Object context = util.query(id);
+
+				// t_flow_no 表的java模型
 				FlowRecord flow = new FlowRecord();
-				flow.setBusId(iReq.getId());
+
+				flow.setBusId(id);
 				flow.setBusType(iReq.getBusType());
 				flow.setCacheData(JSON.toJSONString(context));
-				flowDao.addFlowRecord(flow);
+				flowDao.addFlowRecord(flow);// 将查到的事务操作信息添加到t_flow_no表
 			}
-
+			// 返回响应
 			return rsp;
 		} catch (BaseException e) {
 			BaseRsp rsp = new BaseRsp();
@@ -58,4 +71,5 @@ public class BaseController {
 			return (P) new BaseRsp(5, "error");
 		}
 	}
+
 }

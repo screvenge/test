@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.study.dao.staff.StaffDao">
+
+	<!-- 添加员工信息,tips:尽量不要在insert语句中写子查询,涉及隔离性的问题 -->
+	<insert id="addStaff">
+		insert into
+		a_staff(jobnumber,departmentid,name,phone,email,hasinnerlicense,innerlicenselevel)
+		values
+		(#{staff.jobNumber},
+		(select id as departmentId from a_department where
+		name=#{departmentName}),
+		#{staff.staffName},#{staff.phone},#{staff.email},#{staff.hasInnerlicense},#{staff.innerlicenselevel})
+	</insert>
+	
+	<!-- 根据工号查询员工详细信息 -->
+	<select id="selectStaffByJobNumber" resultType="com.study.model.staff.Staff">
+	select id as staffId,departmentId from a_staff where jobnumber = #{jobNumber}
+	</select>
+	
+	<!-- 根据工号查询员工id -->
+	<select id="searchStaffIdByJobNumber" resultType="Long">
+	select id as staffId from a_staff where jobnumber = #{jobNumber}
+	</select>
+	
+</mapper>
