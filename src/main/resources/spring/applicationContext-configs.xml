@@ -22,4 +22,14 @@
 	</bean>
     
     <bean id="initTask" class="com.study.common.startup.InitTask" factory-method="getInstance"/>
+    
+    <!-- 审批策略工厂 -->
+    <bean id="strategyFactory" class="com.study.common.AuditStrategyFactory"
+    	factory-method="getInstance">
+		<property name="serviceConfigs">
+			<map>
+				<entry key="1" value="addCarInfoService"></entry>
+			</map>
+		</property>
+    </bean>
 </beans>

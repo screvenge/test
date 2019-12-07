@@ -43,6 +43,11 @@ public abstract class AbstractTask {
 
 	// 定时任务主要方法
 	public void work(TaskInfo info) {
+		
+		if (info.getRunStatus() == 0) {
+			return;
+		}
+
 		// 执行时间段
 		String excuteTime = info.getExcuteTime();
 		String startTime;

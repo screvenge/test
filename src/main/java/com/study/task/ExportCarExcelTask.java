@@ -73,7 +73,7 @@ public class ExportCarExcelTask extends AbstractTask {
 				row.createCell(5).setCellValue(cars.get(i).getTemLicense());
 				row.createCell(6).setCellValue(cars.get(i).getTemStartDate());
 				row.createCell(7).setCellValue(cars.get(i).getTemEndDate());
-				row.createCell(8).setCellValue(cars.get(i).getAduitStatus());
+				row.createCell(8).setCellValue(cars.get(i).getAuditStatus());
 				row.createCell(9).setCellValue(cars.get(i).getStatus());
 				row.createCell(10).setCellValue(cars.get(i).getDepartmentId());
 				row.createCell(11).setCellValue(cars.get(i).getStaffId());
@@ -85,7 +85,7 @@ public class ExportCarExcelTask extends AbstractTask {
 			
 			OutputStream fos = null; 
 			try {
-				fos = FileUtil.fileOutputStream("C:\\Users\\swiftzsl\\Desktop\\CarExcel\\", "项目匹配车表" + getTimestamp() + ".xlsx");
+				fos = FileUtil.fileOutputStream("C:\\Users\\reborn\\Desktop\\carexcel\\", "项目匹配车表" + getTimestamp() + ".xlsx");
 				workbook.write(fos);
 			} catch (IOException e) {
 				System.out.println("导出失败");

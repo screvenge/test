@@ -16,6 +16,11 @@ public class SelectCarInfoReq extends BaseReq {
 	private Long jobNumber;
 	@NotNull
 	private String carNo;
+	
+	/**
+	 * 工作流id
+	 */
+	private Long flowId;
 
 	public Long getJobNumber() {
 		return jobNumber;
@@ -33,4 +38,11 @@ public class SelectCarInfoReq extends BaseReq {
 		this.carNo = carNo;
 	}
 
+	public Long getFlowId() {
+		return flowId;
+	}
+
+	public void setFlowId(Long flowId) {
+		this.flowId = flowId;
+	}
 }

@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.alibaba.fastjson.JSON;
+import com.study.common.constants.WorkFlow;
+import com.study.common.workflow.IAuditReq;
 import com.study.dao.FlowDao;
 import com.study.model.FlowRecord;
 
@@ -53,10 +55,23 @@ public class BaseController {
 
 				// t_flow_no 表的java模型
 				FlowRecord flow = new FlowRecord();
-
 				flow.setBusId(id);
 				flow.setBusType(iReq.getBusType());
 				flow.setCacheData(JSON.toJSONString(context));
+				flow.setFlowStatus(iReq.getFlowStatus());
+				flow.setCreateUser(AccountUtil.getInstance().getAccount());
+				
+				// 如果是审批的工作流, 那么添加审批人
+				if (req instanceof IAuditReq) {
+					flow.setAuditUser(((IAuditReq) req).getAuditAccout());
+					flow.setServiceId(((IAuditReq) req).getServiceId());
+					flow.setIsCurrent(WorkFlow.IS_CURRENT);
+					flow.setAuditStatus(WorkFlow.AuditStatus.AUDITING);
+				} else {
+					flow.setIsCurrent(WorkFlow.IS_NOT_CURRENT);
+					flow.setAuditStatus(WorkFlow.AuditStatus.OPERATION);
+				}
+				
 				flowDao.addFlowRecord(flow);// 将查到的事务操作信息添加到t_flow_no表
 			}
 			// 返回响应

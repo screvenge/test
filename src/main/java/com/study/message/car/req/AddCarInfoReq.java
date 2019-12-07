@@ -5,16 +5,19 @@ import javax.validation.constraints.NotNull;
 import com.study.common.BaseReq;
 import com.study.common.IOperationReq;
 import com.study.common.constants.BusType;
+import com.study.common.constants.ServiceId;
+import com.study.common.constants.WorkFlow;
+import com.study.common.workflow.IAuditReq;
 
 /**
  * 添加车辆信息请求类
  * @author swiftzsl
  *
  */
-public class AddCarInfoReq extends BaseReq implements IOperationReq{
-	
+public class AddCarInfoReq extends BaseReq implements IOperationReq, IAuditReq {
 	@NotNull
 	private Long jobNumber;
+	
 	@NotNull
 	private String consumer;
 	
@@ -27,6 +30,9 @@ public class AddCarInfoReq extends BaseReq implements IOperationReq{
 	private String temEndDate;
 	
 	private Long carId;
+	
+	@NotNull
+	private String auditAccout;
 	
 	@Override
 	public String getBusType() {
@@ -94,4 +100,22 @@ public class AddCarInfoReq extends BaseReq implements IOperationReq{
 		this.carId = carId;
 	}
 
+	public void setAuditAccout(String auditAccout) {
+		this.auditAccout = auditAccout;
+	}
+
+	@Override
+	public Integer getFlowStatus() {
+		return WorkFlow.FlowStatus.ADD;
+	}
+
+	@Override
+	public String getAuditAccout() {
+		return auditAccout;
+	}
+
+	@Override
+	public String getServiceId() {
+		return ServiceId.ADD_CAR;
+	}
 }

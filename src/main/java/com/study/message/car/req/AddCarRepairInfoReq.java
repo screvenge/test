@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import com.study.common.BaseReq;
 import com.study.common.IOperationReq;
 import com.study.common.constants.BusType;
+import com.study.common.constants.WorkFlow;
 
 /**
  * 添加修车信息请求类
@@ -58,5 +59,9 @@ public class AddCarRepairInfoReq extends BaseReq implements IOperationReq{
 	public void setRepairId(Long repairId) {
 		this.repairId = repairId;
 	}
-
+	
+	@Override
+	public Integer getFlowStatus() {
+		return WorkFlow.FlowStatus.ADD;
+	}
 }

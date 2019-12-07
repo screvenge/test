@@ -13,7 +13,7 @@ public class CarRecord {
 	
 	private String temStartDate;
 	
-	private Integer aduitStatus;
+	private Integer auditStatus;
 	
 	private Integer status;
 	
@@ -81,12 +81,12 @@ public class CarRecord {
 		this.temStartDate = temStartDate;
 	}
 
-	public Integer getAduitStatus() {
-		return aduitStatus;
+	public Integer getAuditStatus() {
+		return auditStatus;
 	}
 
-	public void setAduitStatus(Integer aduitStatus) {
-		this.aduitStatus = aduitStatus;
+	public void setAuditStatus(Integer auditStatus) {
+		this.auditStatus = auditStatus;
 	}
 
 	public Integer getStatus() {
@@ -164,8 +164,8 @@ public class CarRecord {
 	@Override
 	public String toString() {
 		return "CarRecord [id=" + id + ", carNo=" + carNo + ", hasLicense=" + hasLicense + ", licenseId=" + licenseId
-				+ ", hasTempLicense=" + hasTempLicense + ", temStartDate=" + temStartDate + ", aduitStatus="
-				+ aduitStatus + ", status=" + status + ", departmentId=" + departmentId + ", staffId=" + staffId
+				+ ", hasTempLicense=" + hasTempLicense + ", temStartDate=" + temStartDate + ", auditStatus="
+				+ auditStatus + ", status=" + status + ", departmentId=" + departmentId + ", staffId=" + staffId
 				+ ", consumerId=" + consumerId + ", registTime=" + registTime + ", actualRegistTime=" + actualRegistTime
 				+ ", outTime=" + outTime + ", temLicense=" + temLicense + ", temEndDate=" + temEndDate + "]";
 	}

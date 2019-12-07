@@ -1,7 +1,7 @@
-package com.study.model;
+package com.study.message.flow;
 
-public class FlowRecord {
-	private Long id;
+public class FlowInfo {
+private Long id;
 	
 	private Long busId;
 	
@@ -32,7 +32,7 @@ public class FlowRecord {
 	 */
 	private String auditUser;
 	
-	private String serviceId;
+	private Integer serviceId;
 
 	public Long getId() {
 		return id;
@@ -118,15 +118,15 @@ public class FlowRecord {
 		return auditUser;
 	}
 
-	public String getServiceId() {
+	public void setAuditUser(String auditUser) {
+		this.auditUser = auditUser;
+	}
+
+	public Integer getServiceId() {
 		return serviceId;
 	}
 
-	public void setServiceId(String serviceId) {
+	public void setServiceId(Integer serviceId) {
 		this.serviceId = serviceId;
-	}
-
-	public void setAuditUser(String auditUser) {
-		this.auditUser = auditUser;
 	}
 }

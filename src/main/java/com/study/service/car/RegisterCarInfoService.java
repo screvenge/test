@@ -52,7 +52,7 @@ public class RegisterCarInfoService implements IService<RegisterCarInfoReq, Base
 				// 3.根据验车结果修改车辆信息
 				// 更新carNo, aduitstatus, status, actualregisttime
 				carRecord.setCarNo(req.getCarNo());
-				carRecord.setAduitStatus(Constants.YES);
+				carRecord.setAuditStatus(Constants.YES);
 				carRecord.setStatus(ifRigster);
 
 				carDao.updateCarInfo(carRecord);

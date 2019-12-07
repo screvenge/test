@@ -3,8 +3,31 @@
 <mapper namespace="com.study.dao.FlowDao">
 	<insert id="addFlowRecord">
 		insert into t_flow_no
-		(busid, bustype, cachedata, createtime, lastmodifytime)
+		(busid, bustype, cachedata, createtime, lastmodifytime, auditstatus, flowstatus,
+		createuser, audituser, iscurrent, serviceid)
 		values
-		(#{busId}, #{busType}, #{cacheData}, utc_timestamp(), utc_timestamp())
+		(#{busId}, #{busType}, #{cacheData}, utc_timestamp(), utc_timestamp(), #{auditStatus}, #{flowStatus},
+		#{createUser}, #{auditUser}, #{isCurrent}, #{serviceId})
 	</insert>
+	
+	<update id="updateCurrentFlow">
+		update t_flow_no
+		set 
+			lastmodifytime = current_timestamp(),
+			auditstatus = #{auditStatus},
+			iscurrent = #{isCurrent}
+		 where
+		    busid = #{busId}
+		    and bustype = #{busType}
+		    and iscurrent = 1
+	</update>
+	
+	<select id="queryCurrentFlow" resultType="com.study.message.flow.FlowInfo">
+		select 
+			id, busid, bustype, cachedata, createtime, lastmodifytime, 
+			auditstatus, flowstatus, createuser, audituser, serviceid
+		from t_flow_no
+		where audituser =#{account}
+		and iscurrent = 1
+	</select>
 </mapper>

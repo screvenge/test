@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import com.study.common.BaseReq;
 import com.study.common.IOperationReq;
 import com.study.common.constants.BusType;
+import com.study.common.constants.WorkFlow;
 import com.study.message.car.data.CarCompInfo;
 
 /**
@@ -73,5 +74,8 @@ public class RegisterCarInfoReq extends BaseReq implements IOperationReq{
 	public void setCarCompInfo(CarCompInfo carCompInfo) {
 		this.carCompInfo = carCompInfo;
 	}
-
+	@Override
+	public Integer getFlowStatus() {
+		return WorkFlow.FlowStatus.ADD;
+	}
 }

@@ -16,7 +16,7 @@ public class CarInfo {
 	
 	private String temStartDate;
 	
-	private Integer aduitStatus;
+	private Integer auditStatus;
 	
 	private Integer status;
 	
@@ -84,12 +84,12 @@ public class CarInfo {
 		this.temStartDate = temStartDate;
 	}
 
-	public Integer getAduitStatus() {
-		return aduitStatus;
+	public Integer getAuditStatus() {
+		return auditStatus;
 	}
 
-	public void setAduitStatus(Integer aduitStatus) {
-		this.aduitStatus = aduitStatus;
+	public void setAuditStatus(Integer auditStatus) {
+		this.auditStatus = auditStatus;
 	}
 
 	public Integer getStatus() {

@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import com.study.common.BaseReq;
 import com.study.common.IOperationReq;
 import com.study.common.constants.BusType;
+import com.study.common.constants.WorkFlow;
 
 /**
  * 删除车辆信息接口类
@@ -53,6 +54,8 @@ public class DeleteCarInfoReq extends BaseReq implements IOperationReq{
 		this.carNo = carNo;
 	}
 	
-	
-
+	@Override
+	public Integer getFlowStatus() {
+		return WorkFlow.FlowStatus.DELETE;
+	}
 }

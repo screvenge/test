@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import com.study.common.BaseReq;
 import com.study.common.IOperationReq;
 import com.study.common.constants.BusType;
+import com.study.common.constants.WorkFlow;
 
 /**
  * 更新修车信息请求类
@@ -74,5 +75,9 @@ public class UpdateCarRepairInfoReq extends BaseReq implements IOperationReq{
 	public void setCost(BigDecimal cost) {
 		this.cost = cost;
 	}
-
+	
+	@Override
+	public Integer getFlowStatus() {
+		return WorkFlow.FlowStatus.MODIFY;
+	}
 }

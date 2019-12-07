@@ -4,4 +4,6 @@ public interface IOperationReq {
 	Long getId();
 	
 	String getBusType();
+	
+	Integer getFlowStatus();
 }

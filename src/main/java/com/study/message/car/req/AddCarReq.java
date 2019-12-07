@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import com.study.common.BaseReq;
 import com.study.common.IOperationReq;
 import com.study.common.constants.BusType;
+import com.study.common.constants.WorkFlow;
 import com.study.message.car.data.CarInfo;
 
 public class AddCarReq extends BaseReq implements IOperationReq {
@@ -29,5 +30,10 @@ public class AddCarReq extends BaseReq implements IOperationReq {
 	@Override
 	public Long getId() {
 		return carInfo.getId();
+	}
+	
+	@Override
+	public Integer getFlowStatus() {
+		return WorkFlow.FlowStatus.ADD;
 	}
 }
