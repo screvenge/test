@@ -11,7 +11,5 @@ public interface FlowDao {
 	int updateCurrentFlow(FlowRecord flowRecord);
 	
 	List<FlowInfo> queryCurrentFlow(String account);
-
-
-
+	
 }
