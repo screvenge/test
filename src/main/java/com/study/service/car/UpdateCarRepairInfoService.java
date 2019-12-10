@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.study.common.AccountUtil;
 import com.study.common.BaseException;
 import com.study.common.BaseRsp;
 import com.study.common.IService;
@@ -41,12 +42,15 @@ public class UpdateCarRepairInfoService implements IService<UpdateCarRepairInfoR
 			CarRepair carRepair = carDao.selectCarRepairInfo(carId, req.getComponent());
 			if (carRepair != null) {
 				if (req.getComponent().equals(carRepair.getComponent())) {
-					//set req的repairId属性值
+					// set req的repairId属性值
 					req.setRepairId(carRepair.getRepairId());
-					
+
 					carRepair.setRepairStaffId(staffId);
 					carRepair.setCost(req.getCost());
 					carDao.updateCarRepairInfo(carRepair);
+
+					// 设置创建者为员工的工号
+					AccountUtil.getInstance().setAccount(req.getJobNumber().toString());
 
 				} else {
 					throw new BaseException(9999);

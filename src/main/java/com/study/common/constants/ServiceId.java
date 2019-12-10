@@ -7,9 +7,12 @@ public interface ServiceId {
 	
 	String DELETE_CAR = "3";
 	
+	String ADD_REPAIRINFO = "4";
+	
 	String ADD_STAFF = "11";
 	
 	String UPDATE_STAFF = "22";
 	
 	String DELETE_STAFF = "33";
+	
 }

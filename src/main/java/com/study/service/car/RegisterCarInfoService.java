@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.study.common.AccountUtil;
 import com.study.common.BaseException;
 import com.study.common.BaseRsp;
 import com.study.common.IService;
@@ -56,6 +57,9 @@ public class RegisterCarInfoService implements IService<RegisterCarInfoReq, Base
 				carRecord.setStatus(ifRigster);
 
 				carDao.updateCarInfo(carRecord);
+				
+				//设置操作者工号
+				AccountUtil.getInstance().setAccount(req.getJobNumber().toString());
 
 			} else {
 				throw new BaseException(1020);

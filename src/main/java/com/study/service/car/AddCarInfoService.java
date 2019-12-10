@@ -57,7 +57,7 @@ public class AddCarInfoService implements IService<AddCarInfoReq, BaseRsp>, IAud
 		req.setCarId(carRecord.getId());
 		
 		//设置创建者为申请员工的工号
-		AccountUtil.getInstance().setAccount(req.getJobNumber() + "");
+		AccountUtil.getInstance().setAccount(req.getJobNumber().toString());
 
 		return new BaseRsp();
 	}

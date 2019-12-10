@@ -58,6 +58,7 @@ public class BaseController {
 				flow.setBusId(id);
 				flow.setBusType(iReq.getBusType());
 				flow.setCacheData(JSON.toJSONString(context));
+				
 				flow.setFlowStatus(iReq.getFlowStatus());
 				flow.setCreateUser(AccountUtil.getInstance().getAccount());
 				
