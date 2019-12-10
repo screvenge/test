@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.study.common.AccountUtil;
 import com.study.common.BaseException;
 import com.study.common.BaseRsp;
 import com.study.common.IService;
@@ -54,6 +55,9 @@ public class AddCarInfoService implements IService<AddCarInfoReq, BaseRsp>, IAud
 
 		//将req的carId属性赋值为id的值
 		req.setCarId(carRecord.getId());
+		
+		//设置创建者为申请员工的工号
+		AccountUtil.getInstance().setAccount(req.getJobNumber() + "");
 
 		return new BaseRsp();
 	}

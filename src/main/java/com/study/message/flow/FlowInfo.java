@@ -1,37 +1,37 @@
 package com.study.message.flow;
 
 public class FlowInfo {
-private Long id;
-	
+	private Long id;
+
 	private Long busId;
-	
+
 	private String busType;
-	
+
 	private String cacheData;
-	
+
 	private String createTime;
-	
+
 	private String lastModifyTime;
-	
+
 	private Integer auditStatus;
-	
+
 	private Integer flowStatus;
-	
+
 	/**
 	 * 是否是当前工作流 0 否 1 是
 	 */
 	private Integer isCurrent;
-	
+
 	/**
 	 * 创建用户
 	 */
 	private String createUser;
-	
+
 	/**
 	 * 审批用户
 	 */
 	private String auditUser;
-	
+
 	private Integer serviceId;
 
 	public Long getId() {

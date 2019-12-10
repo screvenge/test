@@ -67,7 +67,7 @@ public class BaseController {
 					flow.setServiceId(((IAuditReq) req).getServiceId());
 					flow.setIsCurrent(WorkFlow.IS_CURRENT);
 					flow.setAuditStatus(WorkFlow.AuditStatus.AUDITING);
-				} else {
+				} else {//不走审批则设置当前不为工作流,且设置auditstatus为0,表示操作历史
 					flow.setIsCurrent(WorkFlow.IS_NOT_CURRENT);
 					flow.setAuditStatus(WorkFlow.AuditStatus.OPERATION);
 				}

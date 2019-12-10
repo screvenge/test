@@ -31,6 +31,9 @@ public class AddCarInfoReq extends BaseReq implements IOperationReq, IAuditReq {
 	
 	private Long carId;
 	
+	/**
+	 * 指定审批人的工号
+	 */
 	@NotNull
 	private String auditAccout;
 	
