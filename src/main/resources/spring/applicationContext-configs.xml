@@ -29,6 +29,7 @@
 		<property name="serviceConfigs">
 			<map>
 				<entry key="1" value="addCarInfoService"></entry>
+				<entry key="4" value="addCarRepairInfoService"></entry>
 			</map>
 		</property>
     </bean>

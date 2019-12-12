@@ -7,6 +7,7 @@ import com.study.common.workflow.IAuditService;
 
 /**
  * 审批策略工厂模式
+ * 单例工厂
  * @author reborn
  *
  */
