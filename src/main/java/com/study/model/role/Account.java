@@ -1,5 +1,7 @@
 package com.study.model.role;
 
+import sun.util.resources.ga.LocaleNames_ga;
+
 /**
  * 账号
  * 一个账号对应一个角色
@@ -8,7 +10,7 @@ public class Account {
 
     Long id;
 
-    String account;
+    Long account;
 
     String accountName;
 
@@ -22,11 +24,11 @@ public class Account {
         this.id = id;
     }
 
-    public String getAccount() {
+    public Long getAccount() {
         return account;
     }
 
-    public void setAccount(String account) {
+    public void setAccount(Long account) {
         this.account = account;
     }
 

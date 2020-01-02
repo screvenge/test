@@ -2,6 +2,7 @@ package com.study.service.aspect;
 
 import java.lang.reflect.Method;
 
+import com.study.common.BaseException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -18,14 +19,14 @@ import com.study.common.workflow.IAuditReq;
  */
 @Component // 加入到IoC容器
 @Aspect // 指定当前类为切面类
-public class EmailAspect {
+public class EmailAspect extends BaseException {
 	/**
 	 * 环绕通知方法
 	 * 
 	 * @param joinPoint 这个对象是必须要有的，因为你要在通知中通过它来调用被通知的方法。
 	 */
 	@Around("@annotation(com.study.service.aspect.SendEmail)")
-	public Object watchPerformance(ProceedingJoinPoint joinPoint) {
+	public Object watchPerformance(ProceedingJoinPoint joinPoint) throws Exception{
 		Object obj = null;
 		try {
 			// 通知方法中可以做任何的事情，当要将控制权交给被通知的方法时，它需要调用该方法。
@@ -61,6 +62,8 @@ public class EmailAspect {
 					}
 				}
 			}
+		} catch (BaseException e){
+			throw e;
 		} catch (Throwable throwable) {
 			throwable.printStackTrace();
 			System.out.println("throw exception");
