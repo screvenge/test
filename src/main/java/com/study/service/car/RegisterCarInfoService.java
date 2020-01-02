@@ -1,5 +1,6 @@
 package com.study.service.car;
 
+import com.study.service.role.RoleService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,10 +33,15 @@ public class RegisterCarInfoService implements IService<RegisterCarInfoReq, Base
 	private CarDao carDao;
 	@Autowired
 	private StaffDao staffDao;
+	@Autowired
+	private RoleService roleService;
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
 	public BaseRsp doExcute(RegisterCarInfoReq req) throws Exception {
+
+		roleService.checkAuthority(req.getJobNumber(), "registerCarInfo");
+
 		// 根据车牌号获取车辆原有信息
 		CarRecord carRecord = carDao.selectOneCarRecordByLicense(req.getLicense());
 

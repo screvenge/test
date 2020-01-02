@@ -8,6 +8,7 @@ import java.util.List;
  *
  */
 
+import com.study.service.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +27,17 @@ public class SelectCarInfoService implements IService<SelectCarInfoReq, SelectCa
 	private CarDao carDao;
 	@Autowired
 	private StaffDao staffDao;
+	@Autowired
+	private RoleService roleService;
+
 
 	@Override
 	public SelectCarInfoRsp doExcute(SelectCarInfoReq req) throws Exception {
 		// 查询员工是否存在
 		Long staffId = staffDao.searchStaffIdByJobNumber(req.getJobNumber());
 		if (staffId != null) {
+
+			roleService.checkAuthority(req.getJobNumber(), "registerCarInfo");
 			
 			//查询车辆信息
 			List<CarInfoOfOne> carInfoOfOnes = carDao.selectCarInfoByCarNo(req.getCarNo());

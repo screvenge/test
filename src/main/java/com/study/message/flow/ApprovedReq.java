@@ -8,6 +8,10 @@ import com.study.common.BaseReq;
 import com.study.common.workflow.IAuditReq;
 
 public class ApprovedReq extends BaseReq implements IAuditReq {
+
+	@NotNull
+	private Long jobNumber;
+
 	@NotNull
 	private Long busId;
 	
@@ -39,6 +43,14 @@ public class ApprovedReq extends BaseReq implements IAuditReq {
 
 	public void setCreateUser(String createUser) {
 		this.createUser = createUser;
+	}
+
+	public Long getJobNumber() {
+		return jobNumber;
+	}
+
+	public void setJobNumber(Long jobNumber) {
+		this.jobNumber = jobNumber;
 	}
 
 	@Override

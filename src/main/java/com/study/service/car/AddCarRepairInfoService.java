@@ -1,5 +1,6 @@
 package com.study.service.car;
 
+import com.study.service.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -37,11 +38,16 @@ public class AddCarRepairInfoService implements IService<AddCarRepairInfoReq, Ba
 	private StaffDao staffDao;
 	@Autowired
 	private FlowDao flowDao;
+	@Autowired
+	private RoleService roleService;
 
 	@Override
 	@SendEmail(serviceId = ServiceId.ADD_REPAIRINFO, msg = "发件人新增了修车申请, 请您审批")
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
 	public BaseRsp doExcute(AddCarRepairInfoReq req) throws Exception {
+
+		roleService.checkAuthority(req.getJobNumber(),"addCarRepairInfo");
+
 		// 1.查询staffId和carId
 		Long staffId = staffDao.searchStaffIdByJobNumber(req.getJobNumber());
 		Long carId = carDao.searchCarIdByCarNo(req.getCarNo());

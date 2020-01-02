@@ -2,6 +2,7 @@ package com.study.service.flow;
 
 import java.util.List;
 
+import com.study.service.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +18,14 @@ public class QueryCurrentFlowService implements IService<QueryCurrentFlowReq, Qu
 
 	@Autowired
 	private FlowDao flowDao;
+	@Autowired
+	private RoleService roleService;
 	
 	@Override
 	public QueryCurrentFlowRsp doExcute(QueryCurrentFlowReq req) throws Exception {
+
+		roleService.checkAuthority(req.getJobNumber(), "queryCurrentFlow");
+
 		List<FlowInfo> flows = flowDao.queryCurrentFlow(AccountUtil.getInstance().getAccount());
 		QueryCurrentFlowRsp rsp = new QueryCurrentFlowRsp();
 		rsp.setFlowInfos(flows);

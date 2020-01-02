@@ -10,9 +10,10 @@
     <!--外部数据源-->
     <context:property-placeholder location="classpath:db.properties"/>
 
-<!--     连接池-->
+    <!--     连接池-->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
-        <property name="url" value="jdbc:mysql://localhost:3306/bosch?serverTimezone=UTC&amp;characterEncoding=utf8&amp;useSSL=true"/>
+        <property name="url"
+                  value="jdbc:mysql://localhost:3306/bosch?serverTimezone=UTC&amp;characterEncoding=utf8&amp;useSSL=true"/>
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
         <property name="username" value="root"/>
         <property name="password" value="19940930zsl"/>
@@ -23,16 +24,16 @@
     <!--sqlSessionFactory-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!-- 数据源 -->
-        <property name="configLocation" value="classpath:mybatis/sqlMapConfig.xml" />
+        <property name="configLocation" value="classpath:mybatis/sqlMapConfig.xml"/>
         <property name="dataSource" ref="dataSource"/>
-		<!--dao下所有的xml文件-->
-		<!--classpath后的*不能缺少,缺少的话通配符**没有效果-->
-        <property name="mapperLocations" value="classpath:dao/*.xml" />
+        <!--dao下所有的xml文件-->
+        <!--classpath后的*不能缺少,缺少的话通配符**没有效果-->
+        <property name="mapperLocations" value="classpath:dao/*.xml"/>
     </bean>
 
     <!--配置dao的自动扫包-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.study.dao" />
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+        <property name="basePackage" value="com.study.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 </beans>
