@@ -30,6 +30,7 @@ public class DeleteCarInfoService implements IService<DeleteCarInfoReq, BaseRsp>
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
 	public BaseRsp doExcute(DeleteCarInfoReq req) throws Exception {
+
 		// 1.查询staffId和carId
 		Long staffId = staffDao.searchStaffIdByJobNumber(req.getJobNumber());
 		Long carId = carDao.searchCarIdByCarNo(req.getCarNo());

@@ -41,9 +41,9 @@ public class UpdateCarRepairInfoService implements IService<UpdateCarRepairInfoR
 			CarRepair carRepair = carDao.selectCarRepairInfo(carId, req.getComponent());
 			if (carRepair != null) {
 				if (req.getComponent().equals(carRepair.getComponent())) {
-					//set req的repairId属性值
+					// set req的repairId属性值
 					req.setRepairId(carRepair.getRepairId());
-					
+
 					carRepair.setRepairStaffId(staffId);
 					carRepair.setCost(req.getCost());
 					carDao.updateCarRepairInfo(carRepair);

@@ -78,4 +78,5 @@ public class RegisterCarInfoReq extends BaseReq implements IOperationReq{
 	public Integer getFlowStatus() {
 		return WorkFlow.FlowStatus.ADD;
 	}
+	
 }

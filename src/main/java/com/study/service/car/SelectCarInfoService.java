@@ -2,12 +2,6 @@ package com.study.service.car;
 
 import java.util.List;
 
-/**
- * SelectCarInfo服务类
- * @author swiftzsl
- *
- */
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +26,7 @@ public class SelectCarInfoService implements IService<SelectCarInfoReq, SelectCa
 		// 查询员工是否存在
 		Long staffId = staffDao.searchStaffIdByJobNumber(req.getJobNumber());
 		if (staffId != null) {
-			
+
 			//查询车辆信息
 			List<CarInfoOfOne> carInfoOfOnes = carDao.selectCarInfoByCarNo(req.getCarNo());
 			SelectCarInfoRsp rsp = new SelectCarInfoRsp();
@@ -44,5 +38,4 @@ public class SelectCarInfoService implements IService<SelectCarInfoReq, SelectCa
 		}
 
 	}
-
 }

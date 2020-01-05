@@ -19,6 +19,7 @@ public class RejectedService implements IService<RejectedReq, BaseRsp> {
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
 	@SendEmail(serviceId = ServiceId.ADD_CAR, msg = "发件人驳回了审批")
 	public BaseRsp doExcute(RejectedReq req) throws Exception {
+
 		AuditStrategyFactory.getInstance().getService(req.getServiceId()).rejected(req.getBusId());
 		return new BaseRsp();
 	}

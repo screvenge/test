@@ -7,11 +7,15 @@
  ##filter databfile、sln file##
 *.mdb  
 *.ldb  
-*.sln   
+*.sln
+.idea/*
+.eclipse/*
+.settings/*
 ##class file##
 *.com  
 *.class  
 *.dll  
 *.exe  
 *.o  
-*.so 
+*.so
+*.iml

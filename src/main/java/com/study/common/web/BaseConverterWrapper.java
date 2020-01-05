@@ -80,11 +80,6 @@ public class BaseConverterWrapper<T> implements HttpMessageConverter<T> {
 							} catch (InvocationTargetException e) {
 								e.printStackTrace();
 							}
-							
-							// 如果是账号信息, 放入线程中
-							if ("account".equals(fill.name())) {
-								AccountUtil.getInstance().setAccount(list.get(0));
-							}
 						}
 					}
 				}

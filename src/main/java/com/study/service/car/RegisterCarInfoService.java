@@ -35,6 +35,7 @@ public class RegisterCarInfoService implements IService<RegisterCarInfoReq, Base
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
 	public BaseRsp doExcute(RegisterCarInfoReq req) throws Exception {
+
 		// 根据车牌号获取车辆原有信息
 		CarRecord carRecord = carDao.selectOneCarRecordByLicense(req.getLicense());
 

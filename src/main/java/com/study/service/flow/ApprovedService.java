@@ -19,6 +19,7 @@ public class ApprovedService implements IService<ApprovedReq, BaseRsp> {
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
 	@SendEmail(serviceId = ServiceId.ADD_CAR, msg = "发件人通过了审批")
 	public BaseRsp doExcute(ApprovedReq req) throws Exception {
+
 		AuditStrategyFactory.getInstance().getService(req.getServiceId()).approved(req.getBusId());
 		return new BaseRsp();
 	}

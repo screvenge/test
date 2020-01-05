@@ -6,4 +6,9 @@ public interface BusType {
 	 */
 	String CAR = "1";
 	
+	/**
+	 * staff模块
+	 */
+	String STAFF = "2";
+	
 }

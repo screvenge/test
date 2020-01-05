@@ -17,15 +17,20 @@
 	<!-- 做转发操作 -->
 	<!-- 使用RequestMapping 注解来映射请求的URL -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" />
-    
+
+
         <!-- 配置拦截器 -->
-<!--     <mvc:interceptors>
-        <mvc:interceptor>
+    <mvc:interceptors>
+        <!-- <mvc:interceptor>
             <mvc:mapping path="/api/**" />
             <bean class="com.study.interceptor.LoginInterceptor"></bean>
-        </mvc:interceptor>
-    </mvc:interceptors>
- -->
+        </mvc:interceptor> -->
+		<mvc:interceptor>
+			<mvc:mapping path="/api/**"/>
+			<ref bean="authInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
      <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
          <property name="messageConverters">
          	<list>
@@ -47,7 +52,7 @@
      		</list>
      	</property>
      	<property name="objectMapper">
-     		<bean class="com.study.common.web.Long2StringObjectMapper"></bean>
+     		<bean class="com.study.common.web.Long2StringObjectMapper"/>
      	</property>
      </bean>
      
@@ -59,4 +64,6 @@
                支持@Valid注解和RequestBody, ResponseBody
      -->
     <mvc:annotation-driven />
+    
+    <bean id="authInterceptor" class="com.study.interceptor.AuthInterceptor" />
 </beans>
