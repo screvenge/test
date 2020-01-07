@@ -5,6 +5,10 @@
         insert into a_account(account,accountname,roleid) values (#{account},#{accountName},#{roleId})
     </insert>
 
+    <insert id="addRole">
+        insert into a_role(`desc`) values (#{desc})
+    </insert>
+
 
     <select id="selectResource" resultType="String">
         SELECT e.`name` FROM a_account a

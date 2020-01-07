@@ -19,3 +19,5 @@
 *.o  
 *.so
 *.iml
+!/src/main/resources/spring/applicationContext-dao.xml
+!/src/main/resources/db.properties

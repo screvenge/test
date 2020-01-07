@@ -13,4 +13,11 @@ public interface RoleDao {
     void addAccount(Account account);
 
 	List<ResourceInfo> queryResourceByAccount(@Param("account") String account);
+
+    /**
+     * 新增角色
+     * @param desc 角色名
+     */
+	void addRole(@Param("desc") String desc);
+
 }
