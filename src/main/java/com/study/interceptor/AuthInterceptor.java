@@ -59,9 +59,15 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
 
         // 查看该账号是否包含请求的servletPath
-        List<ResourceInfo> resourceInfos = resourceCache.getResourceCache().get(account);
-        if (CollectionUtils.isEmpty(resourceInfos) || resourceInfos.stream().map(ResourceInfo::getName)
-                .noneMatch(resourceName -> path.equals(resourceName))) {
+        Long roleId = resourceCache.getRoleIdCache().get(account);
+
+        if (null == roleId) {
+            return false;
+        }
+
+        List<String> resources = resourceCache.getResourceCache().get(roleId);
+
+        if (CollectionUtils.isEmpty(resources) || !resources.contains(path)) {
         	return false;
         }
 

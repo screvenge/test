@@ -12,5 +12,7 @@ public interface RoleDao {
 
     void addAccount(Account account);
 
-	List<ResourceInfo> queryResourceByAccount(@Param("account") String account);
+	List<String> queryResourceByAccount(Long roleId);
+
+	Long queryRoleIdByAccount(String account);
 }
