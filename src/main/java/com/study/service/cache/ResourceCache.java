@@ -1,16 +1,17 @@
 package com.study.service.cache;
 
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.study.dao.role.RoleDao;
-import com.study.message.role.data.ResourceInfo;
+import com.study.message.role.data.ResourceRoleRelationInfo;
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * 资源本地缓存
@@ -26,7 +27,18 @@ public class ResourceCache {
                     @Override
                     public Long load(String account) throws Exception {
                         //在这里可以初始化加载数据的缓存信息，读取数据库中信息或者是加载文件中的某些数据信息
-                        return roleDao.queryRoleIdByAccount(account);
+                        List<ResourceRoleRelationInfo> relationInfos = roleDao.queryResourceByAccount(account);
+
+                        // 约定-1位角色不存在
+                        Long roleId = -1L;
+                        if (CollectionUtils.isNotEmpty(relationInfos)) {
+                            // 直接手动添加资源的本地缓存不再查数据库了
+                            roleId = relationInfos.get(0).getRoleId();
+                            getResourceCache().put(roleId, relationInfos.stream()
+                                    .map(ResourceRoleRelationInfo::getName).collect(Collectors.toList()));
+                        }
+
+                        return roleId;
                     }
                 });
     }
@@ -39,7 +51,7 @@ public class ResourceCache {
                     @Override
                     public List<String> load(Long roleId) throws Exception {
                         //在这里可以初始化加载数据的缓存信息，读取数据库中信息或者是加载文件中的某些数据信息
-                        return roleDao.queryResourceByAccount(roleId);
+                        return roleDao.queryResourceByRoleId(roleId);
                     }
                 });
     }

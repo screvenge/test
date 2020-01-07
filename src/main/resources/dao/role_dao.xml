@@ -13,13 +13,16 @@
         WHERE a.account=#{account}
     </select>
 
-    <select id="queryResourceByAccount" resultType="String">
+    <select id="queryResourceByRoleId" resultType="String">
         select t2.name from a_role_resource_relation t1
 		inner join a_resource t2 on t1.resourceid = t2.id
 		where t1.roleid = #{roleId} and t2.type = 1
     </select>
 
-    <select id="queryRoleIdByAccount" resultType="long">
-        select roleid from a_account where account = #{account}
+    <select id="queryResourceByAccount" resultType="com.study.message.role.data.ResourceRoleRelationInfo">
+        select t3.name, t2.roleid from a_account t1
+        inner join a_role_resource_relation t2 on t1.roleid = t2.roleid
+        inner join a_resource t3 on t2.resourceid = t3.id
+        where t1.account = #{account} and t3.type = 1
     </select>
 </mapper>

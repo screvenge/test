@@ -1,6 +1,6 @@
 package com.study.dao.role;
 
-import com.study.message.role.data.ResourceInfo;
+import com.study.message.role.data.ResourceRoleRelationInfo;
 import com.study.model.role.Account;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,7 +12,7 @@ public interface RoleDao {
 
     void addAccount(Account account);
 
-	List<String> queryResourceByAccount(Long roleId);
+	List<String> queryResourceByRoleId(Long roleId);
 
-	Long queryRoleIdByAccount(String account);
+	List<ResourceRoleRelationInfo> queryResourceByAccount(String account);
 }

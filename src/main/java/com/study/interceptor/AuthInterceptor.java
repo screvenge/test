@@ -1,11 +1,7 @@
 package com.study.interceptor;
 
-import java.util.List;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.study.common.AccountUtil;
+import com.study.service.cache.ResourceCache;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +10,10 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.study.common.AccountUtil;
-import com.study.message.role.data.ResourceInfo;
-import com.study.service.cache.ResourceCache;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 鉴权拦截器
@@ -61,7 +58,8 @@ public class AuthInterceptor implements HandlerInterceptor {
         // 查看该账号是否包含请求的servletPath
         Long roleId = resourceCache.getRoleIdCache().get(account);
 
-        if (null == roleId) {
+        // 约定-1为角色不存在
+        if (-1 == roleId) {
             return false;
         }
 
