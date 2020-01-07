@@ -1,7 +1,6 @@
 package com.study.interceptor;
 
 import com.study.common.AccountUtil;
-import com.study.message.role.data.ResourceInfo;
 import com.study.service.cache.ResourceCache;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -56,10 +55,17 @@ public class AuthInterceptor implements HandlerInterceptor {
         	return false;
         }
 
-        // 查看该账号是否包含请求的servletPath, getResourceCache()返回一个loadingcache
-        List<ResourceInfo> resourceInfos = resourceCache.getResourceCache().get(account);
-        if (CollectionUtils.isEmpty(resourceInfos) || resourceInfos.stream().map(ResourceInfo::getName)
-                .noneMatch(resourceName -> path.equals(resourceName))) {
+        // 查看该账号是否包含请求的servletPath
+        Long roleId = resourceCache.getRoleIdCache().get(account);
+
+        // 约定-1为角色不存在
+        if (-1 == roleId) {
+            return false;
+        }
+
+        List<String> resources = resourceCache.getResourceCache().get(roleId);
+
+        if (CollectionUtils.isEmpty(resources) || !resources.contains(path)) {
         	return false;
         }
 
