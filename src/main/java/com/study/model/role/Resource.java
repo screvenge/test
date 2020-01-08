@@ -6,16 +6,16 @@ package com.study.model.role;
  */
 public class Resource {
 
-    Long id;
+    private Long id;
 
-    String name;
+    private String name;
 
-    String desc;
+    private String desc;
 
     //1.菜单 2.接口(controller接口)
-    Integer type;
+    private Integer type;
 
-    Long parentResourceId;
+    private Long parentResourceId;
 
     public Long getId() {
         return id;

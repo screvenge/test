@@ -3,6 +3,7 @@ package com.study.controller;
 import com.study.common.BaseController;
 import com.study.common.BaseRsp;
 import com.study.common.IService;
+import com.study.message.role.req.AddResourceReq;
 import com.study.message.role.req.AddRoleReq;
 import com.study.message.role.req.CreateAccountReq;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class RoleController extends BaseController {
     private IService<CreateAccountReq, BaseRsp> createAccountService;
     @Autowired
     private IService<AddRoleReq, BaseRsp> addRoleService;
+    @Autowired
+    private IService<AddResourceReq, BaseRsp> addResourceService;
 
     @RequestMapping(value = "/createAccount", method = RequestMethod.POST)
     @ResponseBody
@@ -30,5 +33,9 @@ public class RoleController extends BaseController {
     @RequestMapping(value = "/addRole", method = RequestMethod.POST)
     @ResponseBody
     public BaseRsp addRole(@RequestBody AddRoleReq req){ return super.service(addRoleService,req);}
+
+    @RequestMapping(value = "/addResource", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseRsp addResource(@RequestBody AddResourceReq req){return super.service(addResourceService,req);}
 
 }

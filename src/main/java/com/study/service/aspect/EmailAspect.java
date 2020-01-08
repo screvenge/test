@@ -1,15 +1,14 @@
 package com.study.service.aspect;
 
-import java.lang.reflect.Method;
-
 import com.study.common.BaseException;
+import com.study.common.workflow.IAuditReq;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
-import com.study.common.workflow.IAuditReq;
+import java.lang.reflect.Method;
 
 /**
  * AOP面向切面demo
@@ -19,7 +18,7 @@ import com.study.common.workflow.IAuditReq;
  */
 @Component // 加入到IoC容器
 @Aspect // 指定当前类为切面类
-public class EmailAspect extends BaseException {
+public class EmailAspect {
 	/**
 	 * 序列号id
 	 */

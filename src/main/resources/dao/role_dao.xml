@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.study.dao.role.RoleDao">
+
     <insert id="addAccount" parameterType="com.study.model.role.Account">
         insert into a_account(account,accountname,roleid) values (#{account},#{accountName},#{roleId})
     </insert>
 
-    <insert id="addRole">
+    <insert id="addRole" parameterType="com.study.model.role.Role" keyProperty="id" useGeneratedKeys="true">
         insert into a_role(`desc`) values (#{desc})
     </insert>
 
+    <insert id="addResource" parameterType="com.study.model.role.Resource" keyProperty="id" useGeneratedKeys="true">
+        insert into a_resource(`name`,`desc`,`type`,parentresourceid) values (#{name},#{desc},#{type},#{parentResourceId})
+    </insert>
+
+    <insert id="addRelationShip">
+        insert into a_role_resource_relation(roleid,resourceid) values (#{roleId},#{resourceId})
+    </insert>
 
     <select id="selectResource" resultType="String">
         SELECT e.`name` FROM a_account a
@@ -28,5 +36,13 @@
         inner join a_role_resource_relation t2 on t1.roleid = t2.roleid
         inner join a_resource t3 on t2.resourceid = t3.id
         where t1.account = #{account} and t3.type = 1
+    </select>
+
+    <select id="selectAllRoleNames" resultType="java.lang.String">
+        select `desc` from a_role
+    </select>
+
+    <select id="selectRoleId" resultType="java.lang.Long">
+        select id from a_role where `desc` = #{roleName}
     </select>
 </mapper>

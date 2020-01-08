@@ -21,12 +21,16 @@ public class ResourceCache {
     @Autowired
     private RoleDao roleDao;
 
+    /**
+     * 根据account,存储roleId
+     * @return
+     */
     public LoadingCache<String, Long> getRoleIdCache() {
         return CacheBuilder.newBuilder().maximumSize(3000).expireAfterWrite(86400, TimeUnit.SECONDS)
                 .build(new CacheLoader<String, Long>() {
                     @Override
                     public Long load(String account) throws Exception {
-                        //在这里可以初始化加载数据的缓存信息，读取数据库中信息或者是加载文件中的某些数据信息
+                        //在这里可以初始化加载数据的缓存信息，读取数据库中信息或者是加载文件中的某些数据信息,获取list<接口名和对应角色id>
                         List<ResourceRoleRelationInfo> relationInfos = roleDao.queryResourceByAccount(account);
 
                         // 约定-1位角色不存在
@@ -34,6 +38,8 @@ public class ResourceCache {
                         if (CollectionUtils.isNotEmpty(relationInfos)) {
                             // 直接手动添加资源的本地缓存不再查数据库了
                             roleId = relationInfos.get(0).getRoleId();
+
+                            //LoadingCache<roleId, List<接口名>>
                             getResourceCache().put(roleId, relationInfos.stream()
                                     .map(ResourceRoleRelationInfo::getName).collect(Collectors.toList()));
                         }
@@ -43,6 +49,10 @@ public class ResourceCache {
                 });
     }
 
+    /**
+     * 根据roleId存储对应的接口名
+     * @return
+     */
     public LoadingCache<Long, List<String>> getResourceCache() {
         // maximumSize 定义对象个数的限制，如果没有定义过期规则则超出限制的时候，会将最远时间最少使用的自动过期保证总数在设置的范围内
         // expireAfterWrite 超时时间
@@ -51,6 +61,7 @@ public class ResourceCache {
                     @Override
                     public List<String> load(Long roleId) throws Exception {
                         //在这里可以初始化加载数据的缓存信息，读取数据库中信息或者是加载文件中的某些数据信息
+                        //根据角色id,查询接口名
                         return roleDao.queryResourceByRoleId(roleId);
                     }
                 });

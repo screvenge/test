@@ -55,7 +55,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         	return false;
         }
 
-        // 查看该账号是否包含请求的servletPath
+        // getRoleIdCache获取loadingcache,key为account,value为roleid
         Long roleId = resourceCache.getRoleIdCache().get(account);
 
         // 约定-1为角色不存在
