@@ -1,5 +1,23 @@
 package com.study.task;
 
+import com.study.common.AbstractTask;
+import com.study.common.CloseUtil;
+import com.study.common.FileUtil;
+import com.study.dao.car.CarDao;
+import com.study.model.car.CarRecord;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
@@ -7,27 +25,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.study.common.AbstractTask;
-import com.study.common.CloseUtil;
-import com.study.common.FileUtil;
-import com.study.dao.car.CarDao;
-import com.study.model.car.CarRecord;
-
 @Component("exportCarExcelTask")
 public class ExportCarExcelTask extends AbstractTask {
+    private static final Logger LOG  = Logger.getLogger(ExportCarExcelTask.class);
+
 	@Autowired
 	private CarDao carDao;
 
 	@Override
-	public void mainWork() {
+	public void mainWork() throws Exception {
 		List<CarRecord> cars = carDao.queryCars();
 		if (CollectionUtils.isNotEmpty(cars)) {
 			// 整个excel文件就是一个workbook工作簿
@@ -36,8 +42,16 @@ public class ExportCarExcelTask extends AbstractTask {
 			// Cell列(单元格)
 			
 			// 通过POI导出excel
-			// xls是HSSFWorkbook
-			Workbook workbook = new XSSFWorkbook();
+            // xls是HSSFWorkbook
+            Workbook workbook;
+            try {
+                // 找到资源就通过输入流找模板
+                workbook = new XSSFWorkbook(this.getClass().getResourceAsStream("/excels/template.xlsx"));
+                LOG.info("create xlsx with template");
+
+            } catch (IOException e) {
+                throw e;
+            }
 
 			// 每写入一张表,一行,一列之前都必须先创建
 			Sheet sheet = workbook.createSheet("项目匹配车表");
@@ -85,7 +99,7 @@ public class ExportCarExcelTask extends AbstractTask {
 			
 			OutputStream fos = null; 
 			try {
-				fos = FileUtil.fileOutputStream("C:\\Users\\swiftzsl\\Desktop\\CarExcel\\", "项目匹配车表" + getTimestamp() + ".xlsx");
+				fos = FileUtil.fileOutputStream("C:\\Users\\reborn\\Desktop\\carexcel\\", "项目匹配车表" + getTimestamp() + ".xlsx");
 				workbook.write(fos);
 			} catch (IOException e) {
 				System.out.println("导出失败");

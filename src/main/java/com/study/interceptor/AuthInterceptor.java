@@ -50,6 +50,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             }
         }
 
+
         // 鉴权失败
         if (StringUtils.isBlank(account)) {
         	return false;

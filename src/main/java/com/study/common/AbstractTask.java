@@ -32,7 +32,7 @@ public abstract class AbstractTask {
 	/**
 	 * 子类的定时任务业务逻辑
 	 */
-	public abstract void mainWork();
+	public abstract void mainWork() throws Exception;
 
 	/**
 	 * 获取定时任务名
@@ -119,7 +119,7 @@ public abstract class AbstractTask {
 					// 检测到异常,添加异常的状态
 					catch (Exception e) {
 						e.printStackTrace();
-						addLog(new TaskRunLog(getTaskName(), 3, "error"));
+						addLog(new TaskRunLog(getTaskName(), 3, e.toString()));
 					}
 				}
 			};
